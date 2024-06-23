@@ -10,7 +10,8 @@ The main algorithm and other utilities are implemented in the `nocd` package tha
 ```bash
 python setup.py install
 ```
-A Jupyter notebook [interactive.ipynb](interactive.ipynb) and a python test file are included
+A Jupyter notebook [nocd-gat.ipynb](nocd-gat.ipynb) and a python test file  [nocd-gat.py](nocd-gat.py)
+are included
 
 ## Requirements
 ```
