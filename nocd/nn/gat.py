@@ -36,7 +36,7 @@ class GAT(nn.Module):
         self.dropout = dropout
         layer_dims = np.concatenate([hidden_dims, [output_dim]]).astype(np.int32)
         self.layers = nn.ModuleList([GATConv(input_dim, layer_dims[0],heads = 2,add_self_loops=True,concat = False)])
-        self.layers.append(GATv2Conv(hidden_dims[0] ,output_dim , heads = 2,add_self_loops=True, concat = False ))#heads was 6
+        self.layers.append(GATConv(hidden_dims[0] ,output_dim , heads = 2,add_self_loops=True, concat = False ))#heads was 6
 
         # for idx in range(len(layer_dims) - 1):
         #     print(layer_dims[idx], layer_dims[idx + 1])
