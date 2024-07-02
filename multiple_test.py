@@ -13,7 +13,9 @@ from sklearn.preprocessing import normalize
 # %matplotlib inline
 print(torch.__file__)
 
-torch.set_default_tensor_type(torch.cuda.FloatTensor)
+# torch.set_default_tensor_type(torch.cuda.FloatTensor)
+# torch.set_default_tensor_type()
+torch.set_default_dtype(torch.float32) 
 
 
 data = {
@@ -56,8 +58,8 @@ def load(f,path):
     batch_size = 20000      # batch size (only for stochastic training)
     A, X, Z_gt = loader['A'], loader['X'], loader['Z']
     N, K = Z_gt.shape
-    x_norm = normalize(X)  # node features
-    # x_norm = normalize(A)  # adjacency matrix
+    # x_norm = normalize(X)  # node features
+    x_norm = normalize(A)  # adjacency matrix
     # x_norm = sp.hstack([normalize(X), normalize(A)])  # concatenate A and X
     x_norm = nocd.utils.to_sparse_tensor(x_norm).cuda()
     sampler = nocd.sampler.get_edge_sampler(A, batch_size, batch_size, num_workers=5)
@@ -77,7 +79,7 @@ def load(f,path):
     def train():
         val_loss = np.inf
         validation_fn = lambda: val_loss
-        early_stopping = nocd.train.NoImprovementStopping(validation_fn, patience=5)
+        early_stopping = nocd.train.NoImprovementStopping(validation_fn, patience=10)
         model_saver = nocd.train.ModelSaver(gnn)
         for epoch, batch in enumerate(sampler):
             if epoch > max_epochs:
@@ -120,7 +122,7 @@ def load(f,path):
         return(nmi)
     res = []
     times = []
-    for loops in range(20):
+    for loops in range(50):
         print('loop ', loops)
         st = time.time()
         nmi = train()
